@@ -1,0 +1,45 @@
+import java.util.*;
+import java.io.*;
+
+public class RR implements Algorithm {
+    private List<Task> Queue;
+    private final int QUANT_TIME = 7;//25ms
+    
+    public RR(List<Task> queue) {
+	this.Queue = queue;
+    }
+
+    public void schedule() {
+	
+	
+	while(!(this.Queue.isEmpty())) {
+	    
+	    if(this.Queue.get(0).getBurst() > QUANT_TIME) {
+		
+		this.Queue.get(0).setBurst(this.Queue.get(0).getBurst()-QUANT_TIME);
+		CPU.run(this.Queue.get(0), QUANT_TIME);
+		
+		Task tempTask = this.Queue.get(0);
+		this.Queue.remove(0);
+		this.Queue.add(this.Queue.size(), tempTask);//adds to back of list.
+		
+	    }
+	    
+	    else {
+		CPU.run(this.Queue.get(0),this.Queue.get(0).getBurst());
+		this.Queue.remove(0);
+	    }
+	    
+
+	    //this.Queue.remove(0);
+	    
+	}
+	
+    }
+    
+    public Task pickNextTask() {
+	
+	Task dummy = new Task("lol\n",10,10);
+	return dummy;
+    }//did not end up implementing this method. All was put into the scheduler method.
+}
